@@ -8,6 +8,117 @@ output:
 
 ## Loading and preprocessing the data
 
+### Globals
+Our code presumes that there is some structure to the directory in which the
+analysis is being performed. This structure is defined here.
+```{r}
+tidydata.dir = "data";
+rawdata.dir = "raw";
+```
+
+### GetRawFile function
+This function would normally appear in an external R-code file, but for clarity
+I have included it here. This function will fetch a file from an online
+location, timestamp it, unzip it, and then return the timestamp. It only does
+this if the output.file doesn't already exist. If it does, then it will merely
+return the timestamp for the already saved raw data set.
+
+This function will also restore the data and raw data directories, if
+necessary.
+```{r}
+GetRawFile = function( url, output.file = "RawData" )
+{
+    if ( !dir.exists( rawdata.dir ) )
+    {
+	dir.create( rawdata.dir, recursive = TRUE );
+    }
+
+    output.file = file.path( rawdata.dir, output.file );
+
+    timestamp = "";
+    timestamp.file = paste( output.file, "timestamp", sep = "." );
+
+    #   Get the file from the Webosphere.
+    if ( !file.exists( output.file ) )
+    {
+	timestamp = date();
+	download.file(
+	    url = url,
+	    destfile = output.file
+	);
+	writeLines( timestamp, timestamp.file );
+    }
+    else
+    {
+	timestamp = readLines( timestamp.file );
+    }
+
+    #	We're going to try to unzip this file. If it doesn't work and we get a
+    #	warning, we are going to ignore it. That should only happen if the
+    #	unzipped files already exist, or in the case that the raw data file was
+    #	not zipped to begin with. At least, we hope those are the only
+    #	conditions where a warning would be generated.
+    suppressWarnings( unzip( output.file, overwrite = FALSE ) );
+
+    return(timestamp);
+}
+
+cat(
+    "File downloaded on ",
+    GetRawFile("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"),
+    "\n"
+);
+```
+
+```{r}
+#library( );
+#GetData = function()
+#{
+#    if ( !dir.exists( tidydata.dir ) )
+#    {
+#	dir.create( rawdata.dir, recursive = TRUE );
+#    }
+#    #   We are going to save off a hopefully faster version of the summary
+#    #	file. So. . .
+#    fastdata = "FasterData.rds";
+#
+#    if ( !file.exists( fastdata ) )
+#    {
+#	nei = data.table( readRDS( "summarySCC_PM25.rds" ) );
+#
+#	#   So, let's change some of these into factors, because my poor
+#	#   computer is slow and maybe factors will be fast.
+#	nei$fips = factor( nei$fips );
+#	nei$SCC = factor( nei$SCC, levels = levels( scc$SCC ) );
+#	#   nei$Pollutant = factor( nei$Pollutant );
+#	nei$type = factor( nei$type );
+#
+#	#   And it turns out that the Pollutant variable is completely useless
+#	#   in this dataset, as it only has one value. So, we'll get rid of it.
+#	nei[ , Pollutant := NULL];
+#
+#	#   Now, what I *really* want to do is save this off and then read it
+#	#   back in because my computer is a piece of crap and doing this would
+#	#   make all the plot generation code speed up significantly. . . I
+#	#   hope.
+#	saveRDS( nei, fastdata );
+#
+#	return( invisible( nei ) );
+#    }
+#    else
+#    {
+#	#   WOW this is way, way faster than the original file!
+#	#   So. Much. FASTER!
+#	return( invisible( data.table( readRDS( fastdata ) ) ) );
+#    }
+#}
+#
+#GetFiles();
+#
+#scc = data.table( readRDS( "Source_Classification_Code.rds" ) );
+#nei = GetData();
+
+```
 
 
 ## What is mean total number of steps taken per day?
