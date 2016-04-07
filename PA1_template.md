@@ -142,6 +142,7 @@ TidyData = function( rawfile = "RawData", tidyfile = "TidyData.rds" )
     }
 }
 ```
+
 Now, we actually prepare the data and take a quick look at it.
 
 
@@ -249,6 +250,7 @@ print( gg.hist.steps );
 ```
 
 ![](figure/steps_histogram-1.png)
+
 The mean and median total steps per day are:
 
 
@@ -346,6 +348,7 @@ cat(
 ## Missing intervals 0 
 ## Proportion of missing steps is 0.1311475
 ```
+
 So, only steps are missing from the dataset, which is good, but over 13% of
 entries for steps are `NA`, which may be very bad. We can estimate what these
 missing values might be by replacing them with the median steps for that
@@ -389,6 +392,7 @@ summary(steps.table.fixed$steps);
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       0       0       0      33       8     806
 ```
+
 Now, we create a histogram similar to the one created earlier.
 
 
