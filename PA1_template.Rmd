@@ -1,8 +1,9 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
 output: 
+  md_document:
+    pandoc_args: --tab-stop=8
   html_document:
-    keep_md: true
     pandoc_args: --tab-stop=8
 ---
 
