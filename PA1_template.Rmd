@@ -166,7 +166,7 @@ library( ggplot2 );
 
 gg.hist.steps =
     ggplot( steps.by.date, aes( total.steps ), show.legend = TRUE ) +
-    geom_histogram( binwidth = 30 ) +
+    geom_histogram( bins = 20, col="black", aes( fill=..count.. ) ) +
     labs( x = "Total Steps per Day", y = "Count" ) +
     labs( title = "Occurances of Total Steps Taken in One Day" ) +
     geom_vline(
@@ -187,7 +187,7 @@ gg.hist.steps =
     ) +
     scale_color_manual(
         name = "",
-        values = c( Mean = "green", Median = "blue" )
+        values = c( Mean = "red", Median = "green" )
     );
                
 
@@ -289,7 +289,7 @@ library( ggplot2 );
 
 gg.hist.steps.fixed =
     ggplot( steps.by.date.fixed, aes( total.steps ), show.legend = TRUE ) +
-    geom_histogram( binwidth = 30 ) +
+    geom_histogram( bins = 20, col="black", aes( fill=..count.. ) ) +
     labs( x = "Total Steps per Day", y = "Count" ) +
     labs( title = "Occurances of Total Steps Taken in One Day (with imputation)" ) +
     geom_vline(
@@ -310,7 +310,7 @@ gg.hist.steps.fixed =
     ) +
     scale_color_manual(
         name = "",
-        values = c( Mean = "green", Median = "blue" )
+        values = c( Mean = "red", Median = "green" )
     );
                
 
