@@ -438,43 +438,7 @@ cat( &quot;The median total steps per day is&quot;, steps.median.by.date, &quot;
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
-<p>We can determine this by creating a new factor for <code>steps.table</code>.</p>
-<pre class="r"><code>steps.table[ ,
-    daytype :=
-        ifelse(
-            weekdays(date) %in% c(&quot;Saturday&quot;,&quot;Sunday&quot;),
-            &quot;Weekend&quot;,
-            &quot;Weekday&quot;
-        )
-];
-steps.table[ , daytype := factor(daytype) ];
-
-str(steps.table);</code></pre>
-<pre><code>## Classes 'data.table' and 'data.frame':       17568 obs. of  4 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Date, format: &quot;2012-10-01&quot; &quot;2012-10-01&quot; ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ daytype : Factor w/ 2 levels &quot;Weekday&quot;,&quot;Weekend&quot;: 1 1 1 1 1 1 1 1 1 1 ...
-##  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code>print(steps.table);</code></pre>
-<pre><code>##        steps       date interval daytype
-##     1:    NA 2012-10-01        0 Weekday
-##     2:    NA 2012-10-01        5 Weekday
-##     3:    NA 2012-10-01       10 Weekday
-##     4:    NA 2012-10-01       15 Weekday
-##     5:    NA 2012-10-01       20 Weekday
-##    ---                                  
-## 17564:    NA 2012-11-30     2335 Weekday
-## 17565:    NA 2012-11-30     2340 Weekday
-## 17566:    NA 2012-11-30     2345 Weekday
-## 17567:    NA 2012-11-30     2350 Weekday
-## 17568:    NA 2012-11-30     2355 Weekday</code></pre>
-<p>Let’s see if <code>NA</code> values for steps are more prevalent in weekdays or weekends.</p>
-<pre class="r"><code>steps.table[ daytype == &quot;Weekday&quot;, sum(is.na(steps)) ]/5;
-steps.table[ daytype == &quot;Weekend&quot;, sum(is.na(steps)) ]/2;</code></pre>
-<pre><code>## [1] 345.6
-## [1] 288</code></pre>
-<p>It looks like there are more <code>NA</code> values in the weekdays which I think might affect the results. So, instead, we’ll use the fixed dataset. We will also create a time series based on these factors.</p>
+<p>We can determine this by creating a new factor for <code>steps.table.fixed</code>.</p>
 <pre class="r"><code>steps.table.fixed[ ,
     daytype :=
         ifelse(

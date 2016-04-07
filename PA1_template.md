@@ -491,67 +491,7 @@ median number of steps per day.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-We can determine this by creating a new factor for `steps.table`. 
-
-
-```r
-steps.table[ ,
-    daytype :=
-	ifelse(
-	    weekdays(date) %in% c("Saturday","Sunday"),
-	    "Weekend",
-	    "Weekday"
-	)
-];
-steps.table[ , daytype := factor(daytype) ];
-
-str(steps.table);
-```
-
-```
-## Classes 'data.table' and 'data.frame':	17568 obs. of  4 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ daytype : Factor w/ 2 levels "Weekday","Weekend": 1 1 1 1 1 1 1 1 1 1 ...
-##  - attr(*, ".internal.selfref")=<externalptr>
-```
-
-```r
-print(steps.table);
-```
-
-```
-##        steps       date interval daytype
-##     1:    NA 2012-10-01        0 Weekday
-##     2:    NA 2012-10-01        5 Weekday
-##     3:    NA 2012-10-01       10 Weekday
-##     4:    NA 2012-10-01       15 Weekday
-##     5:    NA 2012-10-01       20 Weekday
-##    ---                                  
-## 17564:    NA 2012-11-30     2335 Weekday
-## 17565:    NA 2012-11-30     2340 Weekday
-## 17566:    NA 2012-11-30     2345 Weekday
-## 17567:    NA 2012-11-30     2350 Weekday
-## 17568:    NA 2012-11-30     2355 Weekday
-```
-
-Let's see if `NA` values for steps are more prevalent in weekdays or weekends.
-
-
-```r
-steps.table[ daytype == "Weekday", sum(is.na(steps)) ]/5;
-steps.table[ daytype == "Weekend", sum(is.na(steps)) ]/2;
-```
-
-```
-## [1] 345.6
-## [1] 288
-```
-
-It looks like there are more `NA` values in the weekdays which I think might
-affect the results. So, instead, we'll use the fixed dataset. We will also
-create a time series based on these factors.
+We can determine this by creating a new factor for `steps.table.fixed`. 
 
 
 ```r

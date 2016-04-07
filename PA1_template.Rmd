@@ -344,36 +344,7 @@ median number of steps per day.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-We can determine this by creating a new factor for `steps.table`. 
-
-```{r factor_steps_table}
-steps.table[ ,
-    daytype :=
-	ifelse(
-	    weekdays(date) %in% c("Saturday","Sunday"),
-	    "Weekend",
-	    "Weekday"
-	)
-];
-steps.table[ , daytype := factor(daytype) ];
-
-str(steps.table);
-print(steps.table);
-
-```
-
-Let's see if `NA` values for steps are more prevalent in weekdays or weekends.
-
-```{r check_steps_factor_NAs, results = 'hold'}
-
-steps.table[ daytype == "Weekday", sum(is.na(steps)) ]/5;
-steps.table[ daytype == "Weekend", sum(is.na(steps)) ]/2;
-
-```
-
-It looks like there are more `NA` values in the weekdays which I think might
-affect the results. So, instead, we'll use the fixed dataset. We will also
-create a time series based on these factors.
+We can determine this by creating a new factor for `steps.table.fixed`. 
 
 ```{r factor_steps_fixed_time_series}
 steps.table.fixed[ ,
